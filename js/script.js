@@ -15,7 +15,11 @@ let productos = [
 //funciones
 //distintas formas de pagar
 function pagar() {
-    /* let precio = productosElegidos[Elegido - 1].precio */
+    for (const producto of factura) {
+        precio += producto.precio * producto.cant
+        textoFactura += "\n" + producto.nombre + "    " + producto.precio + "$     cantidad: " + producto.cant
+    }
+    alert(textoFactura)
     do {
         let pago = Number(prompt("Debe pagar: " + precio + "$"))
         if (pago < precio) {
@@ -46,10 +50,16 @@ function agregarFactura() {
             if (cantidad > productosElegidos[elegido - 1].stock) {
                 alert("Lo sentimos no tenemos esa cantidad de productos\nIngrese una cantidad menor")
             } else if (cantidad > 0 && cantidad <= productosElegidos[elegido - 1].stock) {
+                let nombreIgual = factura.find(producto => producto.nombre === productosElegidos[elegido - 1].nombre)
                 factura.push(productosElegidos[elegido - 1])
                 factura[pasadas].cant = cantidad
                 pasadas++
-                comprado = productos.find(producto => producto.id === productosElegidos[elegido - 1].id)
+                if (nombreIgual) {
+                    nombreIgual.cant += cantidad
+                    factura.pop()
+                    pasadas--
+                }
+                let comprado = productos.find(producto => producto.id === productosElegidos[elegido - 1].id)
                 comprado.stock -= cantidad
                 break
             } else {
@@ -77,8 +87,6 @@ function listado(categoriaElegida) {
     for (let i = 0; i < productosElegidos.length; i++) {
         if (productosElegidos[i].stock > 0) {
             listadoDeProductos += "\n" + (i + 1) + "." + productosElegidos[i].nombre + "    Precio: " + productosElegidos[i].precio + "$"
-        } else {
-
         }
     }
 }
@@ -90,8 +98,10 @@ let listadoDeProductos = ""
 let compra = 1
 let pregunta = 0
 let factura = []
-let pasadas = 0
 let cantidad = 0
+let precio = 0
+let pasadas = 0
+let textoFactura = "Su compra es"
 while (pregunta !== 2 && compra !== 0) {
     pregunta = Number(prompt("BIENVENIDO USUARIO A UNA TIENDA DE ROPA \n¿Quiere comprar algo?\n1.Sí   2.No"))
     while (pregunta === 1 && compra !== 0) {
@@ -101,37 +111,43 @@ while (pregunta !== 2 && compra !== 0) {
                 do {
                     listado("pantalon")
                     elegido = Number(prompt("Tenemos estos pantalones:" + listadoDeProductos + "\n0.volver"))
-                    agregarSiONo()
+                    agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
                 break
             case 2:
                 do {
                     listado("remera")
                     elegido = Number(prompt("Tenemos estas remeras:" + listadoDeProductos + "\n0.volver"))
-                    agregarSiONo()
+                    agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
                 break
             case 3:
                 do {
                     listado("accesorio")
                     elegido = Number(prompt("Tenemos estos accesorios:" + listadoDeProductos + "\n0.volver"))
-                    agregarSiONo()
+                    agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
                 break
             case 4:
                 do {
                     listado("vestido")
                     elegido = Number(prompt("Tenemos estos vestidos:" + listadoDeProductos + "\n0.volver"))
-                    agregarSiONo()
+                    agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
                 break
             case 5:
                 do {
                     listado("medias")
                     elegido = Number(prompt("Tenemos estas medias:" + listadoDeProductos + "\n0.volver"))
-                    agregarSiONo()
+                    agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
             case 6:
+                console.log(compra)
+                pagar()
+                pregunta = parseInt(prompt("¿Seguir comprando?\n1.Sí   2.No"))
+                factura = []
+                pasadas = 0
+                textoFactura = "Su compra es"
                 break
             case 0:
                 break
