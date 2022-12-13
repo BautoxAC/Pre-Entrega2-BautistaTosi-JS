@@ -142,7 +142,6 @@ while (pregunta !== 2 && compra !== 0) {
                     agregarFactura()
                 } while (elegido !== 0 && faltapagar === true)
             case 6:
-                console.log(compra)
                 pagar()
                 pregunta = parseInt(prompt("¿Seguir comprando?\n1.Sí   2.No"))
                 factura = []
