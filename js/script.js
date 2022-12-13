@@ -1,4 +1,4 @@
-//array
+//Array
 let productos = [
     { nombre: "JeansB", id: 1, categoria: "pantalon", stock: 4, precio: 20 },
     { nombre: "MediasC", id: 2, categoria: "medias", stock: 10, precio: 30 },
@@ -12,7 +12,7 @@ let productos = [
     { nombre: "LightB", id: 9, categoria: "vestido", stock: 6, precio: 50 },
     { nombre: "LightE2", id: 10, categoria: "remera", stock: 7, precio: 20 }
 ]
-//funciones
+//Funciones
 //distintas formas de pagar
 function pagar() {
     for (const producto of factura) {
@@ -90,7 +90,7 @@ function listado(categoriaElegida) {
         }
     }
 }
-//codigo
+//Codigo
 let faltapagar = true
 let productosElegidos = []
 let elegido = 0
