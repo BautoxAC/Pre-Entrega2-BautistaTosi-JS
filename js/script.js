@@ -73,7 +73,7 @@ function agregarFactura() {
 }
 //filtrar los productos de la categoria elegida
 function listado(categoriaElegida) {
-    productosElegidos = productos.filter(productos => productos.categoria === categoriaElegida)
+    productosElegidos = productos.filter(productos => productos.categoria === categoriaElegida && productos.stock > 0)
     productosElegidos.sort(function (pro1, pro2) {
         if (pro1.nombre < pro2.nombre) {
             return -1;
@@ -157,7 +157,3 @@ while (pregunta !== 2 && compra !== 0) {
         }
     }
 }
-
-
-
-
