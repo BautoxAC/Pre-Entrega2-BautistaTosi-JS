@@ -15,6 +15,7 @@ let productos = [
 //Funciones
 //distintas formas de pagar
 function pagar() {
+    //forma el string de la factura
     for (const producto of factura) {
         precio += producto.precio * producto.cant
         textoFactura += "\n" + producto.nombre + "    " + producto.precio + "$     cantidad: " + producto.cant
@@ -22,9 +23,11 @@ function pagar() {
     alert(textoFactura)
     do {
         let pago = Number(prompt("Debe pagar: " + precio + "$"))
+        //Si paga menos de la cantidad que debe
         if (pago < precio) {
             precio = precio - pago
             faltapagar = true
+            //si paga mas de lo que debe se le da vuelto
         } else if (pago > precio) {
             let vuelto = precio - pago
             alert("Su vuelto es de: " + (-vuelto) + "$")
@@ -32,6 +35,7 @@ function pagar() {
             faltapagar = false
             break
         } else if (pago === precio) {
+            //si paga igual
             pago = precio - pago
             alert("Disfrute su compra")
             faltapagar = false
@@ -42,7 +46,7 @@ function pagar() {
         }
     } while (faltapagar === true)
 }
-//agregar los productos comprados a la factura
+//agregar los productos comprados a la factura y revisa quela cantidad a comprar no sea mayor al stock
 function agregarFactura() {
     if (elegido > 0 && elegido <= productosElegidos.length) {
         do {
@@ -50,6 +54,7 @@ function agregarFactura() {
             if (cantidad > productosElegidos[elegido - 1].stock) {
                 alert("Lo sentimos no tenemos esa cantidad de productos\nIngrese una cantidad menor")
             } else if (cantidad > 0 && cantidad <= productosElegidos[elegido - 1].stock) {
+                //Busca si hay un producto ya elegido con el mismo nombre que el ultimo elegido y le suma la cantidad al que ya estaba eliminando el ultimo elegido
                 let nombreIgual = factura.find(producto => producto.nombre === productosElegidos[elegido - 1].nombre)
                 factura.push(productosElegidos[elegido - 1])
                 factura[pasadas].cant = cantidad
@@ -59,6 +64,7 @@ function agregarFactura() {
                     factura.pop()
                     pasadas--
                 }
+                //resta la cantidad elegida por el usuario al stock del array principal
                 let comprado = productos.find(producto => producto.id === productosElegidos[elegido - 1].id)
                 comprado.stock -= cantidad
                 break
@@ -71,9 +77,10 @@ function agregarFactura() {
         alert("ERROR")
     }
 }
-//filtrar los productos de la categoria elegida
+//filtrar los productos de la categoria elegida y crea el string de los productos disponibles
 function listado(categoriaElegida) {
     productosElegidos = productos.filter(productos => productos.categoria === categoriaElegida && productos.stock > 0)
+    //ordena la lista de productos en orden alfabetico
     productosElegidos.sort(function (pro1, pro2) {
         if (pro1.nombre < pro2.nombre) {
             return -1;
@@ -84,6 +91,7 @@ function listado(categoriaElegida) {
         return 0;
     })
     listadoDeProductos = ""
+    //crea el string antes mencionado
     for (let i = 0; i < productosElegidos.length; i++) {
         if (productosElegidos[i].stock > 0) {
             listadoDeProductos += "\n" + (i + 1) + "." + productosElegidos[i].nombre + "    Precio: " + productosElegidos[i].precio + "$"
@@ -91,6 +99,7 @@ function listado(categoriaElegida) {
     }
 }
 //Codigo
+//determina las variables que utilizo
 let faltapagar = true
 let productosElegidos = []
 let elegido = 0
@@ -102,6 +111,7 @@ let cantidad = 0
 let precio = 0
 let pasadas = 0
 let textoFactura = "Su compra es"
+//empieza el Codigo
 while (pregunta !== 2 && compra !== 0) {
     pregunta = Number(prompt("BIENVENIDO USUARIO A UNA TIENDA DE ROPA \n¿Quiere comprar algo?\n1.Sí   2.No"))
     while (pregunta === 1 && compra !== 0) {
